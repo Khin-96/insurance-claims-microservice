@@ -2,9 +2,7 @@
 
 > Production-grade claims workflow engine mirroring real insurtech operations — built to align directly with Turaco's core claims-paying business.
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 
 ## Overview
 
@@ -13,19 +11,19 @@ A complete claims management system covering the full lifecycle: submission → 
 ## Features
 
 ### Core Functionality
-- ✅ **Full Claims Lifecycle:** Submit, validate, score, approve/reject
-- ✅ **Role-Based Access Control:** ADMIN, AGENT, CUSTOMER with JWT
-- ✅ **Event-Driven Architecture:** Kafka events for audit and analytics
-- ✅ **Idempotent Requests:** Redis prevents duplicate submissions
-- ✅ **Audit Logging:** Complete trail in PostgreSQL
-- ✅ **Database Migrations:** Flyway for schema versioning
+- **Full Claims Lifecycle:** Submit, validate, score, approve/reject
+- **Role-Based Access Control:** ADMIN, AGENT, CUSTOMER with JWT
+- **Event-Driven Architecture:** Kafka events for audit and analytics
+- **Idempotent Requests:** Redis prevents duplicate submissions
+- **Audit Logging:** Complete trail in PostgreSQL
+- **Database Migrations:** Flyway for schema versioning
 
 ### Production Ready
-- ✅ Docker Compose for local development
-- ✅ GitHub Actions CI/CD pipeline
-- ✅ Swagger/OpenAPI documentation
-- ✅ Integration tests with Testcontainers
-- ✅ Structured logging and metrics
+- Docker Compose for local development
+- GitHub Actions CI/CD pipeline
+- Swagger/OpenAPI documentation
+- Integration tests with Testcontainers
+- Structured logging and metrics
 
 ## Tech Stack
 
@@ -90,34 +88,33 @@ curl -X POST http://localhost:8080/api/claims \
 
 ## Architecture
 
-```
-┌─────────────┐
-│   Client    │
-└──────┬──────┘
-       │ HTTP + JWT
-       ▼
-┌─────────────────────────────────┐
-│  JWT Authentication Filter      │
-└──────┬──────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────┐
-│    Claims Controller            │
-└──────┬──────────────────────────┘
-       │
-       ▼
-┌─────────────────────────────────┐
-│    Claims Service               │
-│  ┌──────────────────────────┐   │
-│  │ Risk Scoring Engine      │   │
-│  │ Idempotency Check        │   │
-│  │ Audit Logging            │   │
-│  └──────────────────────────┘   │
-└──────┬──────────────────────────┘
-       │
-       ├──► PostgreSQL (Claims + Audit)
-       ├──► Redis (Idempotency Keys)
-       └──► Kafka (Events)
+```mermaid
+graph TD
+    Client[Client Application]
+    Filter[JWT Authentication Filter]
+    Controller[Claims Controller]
+    Service[Claims Service]
+    Risk[Risk Scoring Engine]
+    Idempotency[Idempotency Check]
+    Audit[Audit Logging]
+    DB[(PostgreSQL)]
+    Redis[(Redis)]
+    Kafka[Kafka Topics]
+    
+    Client -->|HTTP + JWT| Filter
+    Filter --> Controller
+    Controller --> Service
+    Service --> Risk
+    Service --> Idempotency
+    Service --> Audit
+    Service --> DB
+    Service --> Redis
+    Service --> Kafka
+    
+    style Service fill:#e1f5ff
+    style DB fill:#ffe1e1
+    style Redis fill:#ffe1cc
+    style Kafka fill:#e1ffe1
 ```
 
 ## Key Technical Decisions
