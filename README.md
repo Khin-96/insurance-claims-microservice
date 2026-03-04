@@ -279,12 +279,12 @@ kubectl apply -f k8s/
 ## CI/CD Pipeline
 
 GitHub Actions workflow runs on every push:
-- ✅ Build and compile
-- ✅ Run unit tests
-- ✅ Run integration tests
-- ✅ Generate coverage report
-- ✅ Build Docker image
-- ✅ Deploy to staging (on main branch)
+-  Build and compile
+-  Run unit tests
+-  Run integration tests
+-  Generate coverage report
+-  Build Docker image
+-  Deploy to staging (on main branch)
 
 ## Why This Matters for Turaco
 
